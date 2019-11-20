@@ -21,23 +21,12 @@ struct ColorPicker: View {
     
     /// Prevent the draggable element from going over its limit
     func limitDisplacement(_ value: Double, _ limit: CGFloat, _ state: CGFloat) -> CGFloat {
-        if CGFloat(value)*limit + state > limit {
-            return limit
-        } else if CGFloat(value)*limit + state < 0 {
-            return 0
-        } else {
-            return CGFloat(value)*limit + state
-        }
+        return max(min(CGFloat(value) * limit + state, limit), 0)
     }
+    
     /// Prevent values like hue, saturation and brightness from being greater than 1 or less than 0
     func limitValue(_ value: Double, _ limit: CGFloat, _ state: CGFloat) -> Double {
-        if value + Double(state/limit) > 1 {
-            return 1
-        } else if value + Double(state/limit) < 0 {
-            return 0
-        } else {
-            return value + Double(state/limit)
-        }
+        return max(min(value + Double(state/limit), 1), 0)
     }
     
     /// Labels for each of the Hue, Saturation and Brightness
